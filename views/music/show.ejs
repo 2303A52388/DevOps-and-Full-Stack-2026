@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= music.title %> - Music Vault</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+  <div class="container-fluid">
+    <div class="row">
+      <%- include('../partials/sidebar') %>
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2"><%= music.title %></h1>
+          <div>
+            <a href="/music/<%= music._id %>/edit" class="btn btn-warning">Edit</a>
+            <form action="/music/<%= music._id %>?_method=DELETE" method="POST" class="d-inline" onsubmit="return confirm('Are you sure?')">
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+          </div>
+        </div>
+        <% if (messages.error) { %>
+          <div class="alert alert-danger"><%= messages.error %></div>
+        <% } %>
+        <% if (messages.success) { %>
+          <div class="alert alert-success"><%= messages.success %></div>
+        <% } %>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Details</h5>
+                <p><strong>Artist:</strong> <%= music.artist %></p>
+                <p><strong>Album:</strong> <%= music.album %></p>
+                <p><strong>Genre:</strong> <%= music.genre %></p>
+                <p><strong>Year:</strong> <%= music.year %></p>
+                <p><strong>Description:</strong> <%= music.description %></p>
+                <p><strong>Uploaded by:</strong> <%= music.uploadedBy.name %></p>
+                <p><strong>Uploaded on:</strong> <%= music.createdAt.toDateString() %></p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Audio Player</h5>
+                <audio controls class="w-100">
+                  <source src="/uploads/<%= music.file %>" type="audio/mpeg">
+                  Your browser does not support the audio element.
+                </audio>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
